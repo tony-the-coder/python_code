@@ -13,4 +13,5 @@ for key, value in letter_dict.items():
     print(key, '=', value)
     #Here we print the key that has a value of one.
     print("The letter", key, "only appears once." )
-#print(letter_dict)
+if value !=1 :
+  print("_") 
