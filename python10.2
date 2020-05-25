@@ -1,0 +1,45 @@
+#A long hand method of looping through a file, dealing with lines that are not needed. Extracting data from a file, then working with the data.
+#In this script we are looking for the hours that an email was sent and using a dictionary to keep track of the hours an email was sent. 
+#The dictionary stores the hours and how many times an email was sent at that hours. 
+
+#Basic opening of a file not using with
+name = input("Enter file:")
+if len(name) < 1 : name = "mbox-short.txt"
+handle = open(name)
+
+#Creating a dictionary
+times= dict()
+#Looping through the file and using if statements to bypass blank lines and and line that does not start with 'From'
+
+for items in handle:
+    items = items.rstrip()
+    if items == "":
+        continue
+    hours = items.split()
+    if hours[0] != "From":
+        continue
+    if hours[0] ==  "From":
+      #print(hours) this was to locate the index of the time.
+        emails = (hours[5])
+    for other in emails:
+      #spliting the time into three values by spliting at the ':' [0] was the hour [1] was the minute [2] was the second
+      
+        other = emails.split(':') 
+        #selecting the first item
+        total = other[0]
+#Updating the dicionary with the new information. If the key did not exist it was created with a value of 0 and one was added to it. 
+#Counting each time the hour appeared. The level of indentiation here is very important because if it 
+#is indented below the for loop immediatley above the count will be incorrect
+    times[total] = times.get(total, 0) + 1
+
+#Creating a list then adding the dicitonary items to a list. Then the list was sorted and printed        
+my_list = list()
+for key, val in times.items():
+    my_list.append((key, val))
+my_list.sort()
+
+for key, val in my_list:
+    print(key, val)
+
+
+    
