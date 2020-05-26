@@ -1,0 +1,32 @@
+#Baby steps to learn BeautifulSoup4
+#Python for Everyone on how to scrape span elements and then get the sum of the numbers in the spans.
+#First thing that needs to be done is to import the needed items
+import urllib.request, urllib.parse, urllib.error
+from bs4 import  BeautifulSoup
+#I believe that it is good practice to check for SSL issues using the SSL import
+import ssl
+
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+#We first need to get the address from the user
+url = input('Enter - ')
+#Using the urllib.request we open the page.
+html = urllib.request.urlopen(url, context=ctx).read()
+#Thankfully, we have BeautifulSoup to do the paring for us.
+soup = BeautifulSoup(html, 'html.parser')
+
+#The tag I am looking for here is a span element.
+tags = soup('span')
+#Creat an empty list.
+the_spans = []
+#Loop through the items to look for the tag I want.
+for tag in tags:
+  #I want the contents of the tag at the first (0th) index.
+  results = (tag.contents[0])
+#Convert the list from a string to an int.
+  int_results = int(results)
+#Append the items to the list
+  the_spans.append(int_results)
+ #Some the total of the numbers in the span elements and then print them.
+print(sum(the_spans))
