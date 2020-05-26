@@ -1,0 +1,51 @@
+import urllib.request, urllib.parse, urllib.error
+from bs4 import  BeautifulSoup
+#I believe that it is good practice to check for SSL issues using the SSL import
+import ssl
+
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+#We first need to get the address from the user
+url = input('Enter - ')
+place = int(input('Enter the place: '))-1
+count = int(input('Enter the count: '))
+
+
+
+#Using the urllib.request we open the page.
+html = urllib.request.urlopen(url, context=ctx).read()
+#Thankfully, we have BeautifulSoup to do the paring for us.
+soup = BeautifulSoup(html, 'html.parser')
+
+#The tag I am looking for here is a span element.
+tags = soup('a')
+#Creat an empty list.
+the_a = []
+#Loop through the items using a range from the user's input.
+for i in range(count):
+#sets the variable result
+  results = (tags[place].get('href', None))
+  print("Retrieving:", results)
+#appending items to the list
+  the_a.append(tags[place].contents[0])
+  html = urllib.request.urlopen(results, context=ctx).read()
+  soup = BeautifulSoup(html, 'html.parser')
+#look for the links on the page
+  tags = soup('a')
+  results = tags[place].get('href', None)
+# Finding the last item in the list. 
+final=(the_a[-1])
+
+print(final)
+#print(the_first)
+# second_list = []
+# more_tags = soup('a')
+# url2 = the_first
+# html = urllib.request.urlopen(url2, context=ctx).read()
+# for other in more_tags:
+#     more_results = (tag.get('href', None))
+#     second_list.append(more_results)
+# print(second_list)
+
+
